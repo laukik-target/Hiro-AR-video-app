@@ -1,0 +1,77 @@
+/* Reset some basic elements */
+body, h1, h2, p, ol {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  header {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin-bottom: 10px;
+    font-size: 2.5em;
+  }
+  
+  header p {
+    font-size: 1.2em;
+  }
+  
+  section {
+    padding: 20px 0;
+  }
+  
+  .container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+  }
+  
+  #about, #instructions {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+  #ar-demo {
+    text-align: center;
+  }
+  
+  .demo-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .demo-button:hover {
+    background-color: #0056b3;
+  }
+  
+  footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  

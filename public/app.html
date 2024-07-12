@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hiro AR App</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.1.7/aframe/build/aframe-ar.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    <!-- Marker for tracking -->
+    <a-marker type="pattern" url="pattern-hiro.patt" emitevents="true" id="marker">
+      <!-- Plane to display the video -->
+      <a-plane id="videoPlane" position="4 0 0" rotation="-90 0 0" width="4" height="2.25" material="shader: flat; src: #video"></a-plane>
+    </a-marker>
+    <!-- Camera to view the scene -->
+    <a-entity camera></a-entity>
+  </a-scene>
+  <!-- Video element -->
+  <video id="video" src="test.mp4" loop crossorigin="anonymous" playsinline webkit-playsinline></video>
+  <!-- Script to control the video playback -->
+  <script>
+    const videoPlane = document.getElementById("videoPlane");
+    const marker = document.getElementById("marker");
+    const video = document.getElementById("video");
+
+    let isAnimationRunning = false; // To prevent multiple animations
+
+    marker.addEventListener("markerFound", () => {
+      if (!isAnimationRunning) {
+        animatePosition(4, 0, 0, 1000); // Animates from (0, 0, 0) to (4, 0, 0) in 1 second
+        video.play(); // Play the video when the marker is found
+      }
+    });
+
+    marker.addEventListener("markerLost", () => {
+      if (!isAnimationRunning) {
+        animatePosition(4, 0, 0, 1000); // Animates from (4, 0, 0) to (0, 0, 0) in 1 second
+        video.pause(); // Pause the video when the marker is lost
+      }
+    });
+
+    function animatePosition(startX, endX, endY, duration) {
+      isAnimationRunning = true;
+      const startTime = performance.now();
+      const startY = 0;
+
+      function updatePosition(currentTime) {
+        const elapsedTime = currentTime - startTime;
+        if (elapsedTime < duration) {
+          const newX = startX + (endX - startX) * (elapsedTime / duration);
+          const newY = startY + (endY - startY) * (elapsedTime / duration);
+          videoPlane.setAttribute("position", `${newX} ${newY} 0`);
+          requestAnimationFrame(updatePosition);
+        } else {
+          videoPlane.setAttribute("position", `${endX} ${endY} 0`);
+          isAnimationRunning = false;
+        }
+      }
+
+      requestAnimationFrame(updatePosition);
+    }
+
+    // Ensure the video plays inline on mobile devices
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    // Check for video update every 5 seconds
+    // setInterval(() => {
+    //   // video.currentTime = 0; // Reset video to start for loop effect
+    //   video.play(); // Ensure video is playing
+    // }, 5000);
+  </script>
+</body>
+</html>
